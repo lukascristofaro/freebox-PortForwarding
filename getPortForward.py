@@ -6,4 +6,4 @@ try:
     result = session.connexion_get(method, session.create_session())
     print(result)
 except:
-    print('unknow')
+    print('error fetching data')
