@@ -24,6 +24,8 @@ class GetConnection():
 
         self.session = requests.Session()
         self.session.verify = False
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 
     def fancy_print(data):
         print(json.dumps(data, indent=2, separators=(',', ': ')))
