@@ -42,7 +42,13 @@ class GetConnection():
     def connexion_delete(self, method, session=None):
         url = self.URL_BASE + method
         return json.loads(session.delete(url).text)
-
+    
+    def connexion_close(self, session):
+        result = self.connexion_post("/login/logout/", session=session)
+        if result["success"] != True:
+            print("Error while closing session")
+    
+    
     def register():
         global TOKEN, TRACK_ID
         payload = {'app_id': APP_ID, 'app_name': APP_NAME, 'app_version': APP_VERSION, 'device_name': DEVICE_NAME}

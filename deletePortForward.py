@@ -4,12 +4,12 @@ import sys
 
 class DeletePortForward():
     def __init__(self):
-        self.session = GetConnection()
+        self.connection = GetConnection()
         self.argv = sys.argv
     
     def argumentToInt(self):
         if len(self.argv) == 2:
-            return self.session.get_config(self.argv[1])['wan_port_start']
+            return self.connection.get_config(self.argv[1])['wan_port_start']
             return self.argv[1]
         else:
             print('the argument has to be : xxxx')
@@ -18,7 +18,7 @@ class DeletePortForward():
     def get_portforwarding(self):
         try:
             method = "/fw/redir/"
-            result = self.session.connexion_get(method, self.session.create_session())
+            result = self.connection.connexion_get(method, self.connection.create_session())
             return result
         except:
             print('unknow')
@@ -32,7 +32,7 @@ class DeletePortForward():
                 id = data['result'][i]['id']
         try:
             method = "/fw/redir/"+str(id)
-            self.session.connexion_delete(method, self.session.create_session())
+            connection.connexion_close(session)
         except:
             print('error')
 

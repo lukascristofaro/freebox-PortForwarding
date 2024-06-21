@@ -5,13 +5,14 @@ import json
 
 class AddPortForward():
     def __init__(self):
-        self.session = GetConnection()
+        self.connection = GetConnection()
+        self.currentSession = self.connection.create_session()
         self.ip = "192.168.1.151"
         self.argv = sys.argv
 
     def argumentToJson(self):
         if len(self.argv) == 2:
-            return self.session.get_config(self.argv[1])
+            return self.connection.get_config(self.argv[1])
         else:
             print('the argument has to be : \n \'{\"port\":xxxx, \"wan_port_end\":xxxxx, \"wan_port_start\":xxxxx, \"proto\":"tcp/udp", \"src_ip\":\"x.x.x.x\"}\'')
             return
@@ -51,17 +52,18 @@ class AddPortForward():
             method = "/fw/redir/"
             data = {'enabled' :True, "comment": jsonARGV['name'], "lan_port" : jsonARGV['port'], "wan_port_end" : jsonARGV['wan_port_end'], "wan_port_start" : jsonARGV['wan_port_start'], "lan_ip": self.ip, "ip_proto" : jsonARGV['proto'], "src_ip" : jsonARGV['src_ip']}
             print(data)
-            result = self.session.connexion_post(method, data, self.session.create_session())
+            result = self.connection.connexion_post(method, data, self.connection)
+            connection.connexion_close(session)
         except:
             return "error"
 
     def get_portforwarding(self):
         try:
             method = "/fw/redir/"
-            result = self.session.connexion_get(method, self.session.create_session())
+            result = self.connection.connexion_get(method, self.connection.create_session())
             return result
         except:
-            print('unknow')
+            print('error while fetching portforwarding')
 
     def wanPortUsed(self):
         listePort = []

@@ -1,9 +1,10 @@
 from GetConnection import GetConnection
 
-session = GetConnection()
-try:
-    method = "/fw/redir/"
-    result = session.connexion_get(method, session.create_session())
-    print(result)
-except:
-    print('error fetching data')
+connection = GetConnection()
+session = connection.create_session()
+
+method = "/fw/redir/"
+
+result = connection.connexion_get(method, session)
+print(result)
+connection.connexion_close(session)
