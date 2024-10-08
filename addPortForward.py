@@ -1,3 +1,4 @@
+import socket
 from GetConnection import GetConnection
 
 import sys
@@ -38,7 +39,7 @@ class AddPortForward():
         else:
             if port < 1 and port > 65535:
                 return "the port has to be in the range 1-65535"
-            elif port in scan_ports():
+            elif port in self.scan_ports():
                 return "this port is already used"
         return True
 
@@ -50,11 +51,24 @@ class AddPortForward():
             return
         try:
             method = "/fw/redir/"
-            data = {'enabled' :True, "comment": jsonARGV['name'], "lan_port" : jsonARGV['port'], "wan_port_end" : jsonARGV['wan_port_end'], "wan_port_start" : jsonARGV['wan_port_start'], "lan_ip": self.ip, "ip_proto" : jsonARGV['proto'], "src_ip" : jsonARGV['src_ip']}
-            print(data)
-            result = self.connection.connexion_post(method, data, self.connection)
-            connection.connexion_close(session)
-        except:
+            data = {
+                'enabled': True,
+                "comment": jsonARGV['name'],
+                "lan_port": jsonARGV['port'],
+                "wan_port_end": jsonARGV['wan_port_end'],
+                "wan_port_start": jsonARGV['wan_port_start'],
+                "lan_ip": self.ip,
+                "ip_proto": jsonARGV['proto'],
+                "src_ip": jsonARGV['src_ip']
+            }
+            result = self.connection.connexion_post(method, data, self.currentSession)
+            if result['success'] == True:
+                print("port forwarding added successfully")
+            else:
+                print("error code:", result['error_code'], "\n", result['msg'])
+            self.connection.connexion_close(self.currentSession)
+        except Exception as e:
+            print("An error occurred:", str(e))
             return "error"
 
     def get_portforwarding(self):

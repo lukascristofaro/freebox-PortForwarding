@@ -49,10 +49,10 @@ class GetConnection():
             print("Error while closing session")
     
     
-    def register():
+    def register(self):
         global TOKEN, TRACK_ID
-        payload = {'app_id': APP_ID, 'app_name': APP_NAME, 'app_version': APP_VERSION, 'device_name': DEVICE_NAME}
-        content = connexion_post('login/authorize/', payload)
+        payload = {'app_id': self.APP_ID, 'app_name': self.APP_NAME, 'app_version': self.APP_VERSION, 'device_name': self.DEVICE_NAME}
+        content = self.connexion_post('login/authorize/', payload)
         TOKEN = str(content["result"]["app_token"])
         TRACK_ID = str(content["result"]["track_id"])
 
@@ -77,7 +77,7 @@ class GetConnection():
     def get_config(self, file_path):
         config_data = {}
 
-        with open('/etc/init.d/portforward/config/'+file_path, 'r') as file:
+        with open('config/'+file_path, 'r') as file:
             for line in file:
                 match = re.match(r'(\w+)=(\S+)', line)
                 if match:
