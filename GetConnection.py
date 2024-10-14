@@ -34,6 +34,11 @@ class GetConnection():
         url = self.URL_BASE + method
         if data: data = json.dumps(data)
         return json.loads(session.post(url, data=data).text)
+    
+    def connexeion_put(self, method, data=None, session=None):
+        url = self.URL_BASE + method
+        if data: data = json.dumps(data)
+        return json.loads(session.put(url, data=data).text)
 
     def connexion_get(self, method, session=None):
         url = self.URL_BASE + method
