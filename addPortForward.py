@@ -43,23 +43,48 @@ class AddPortForward():
                 return "this port is already used"
         return True
 
-    def addportforwarding(self):
+    def addPortForwardingWithFile(self):
         jsonARGV = self.argumentToJson()
         listePort = self.wanPortUsed()
         if jsonARGV['wan_port_start'] in listePort or jsonARGV["wan_port_end"] in listePort:
             print('this wan port is already used')
             return
+        addportforwarding(jsonARGV)
+    
+    def addPortForwardingWithInput(self):
+        try:
+            name = input("Enter the name of the port forwarding: ")
+            port = int(input("Enter the port you want to forward: "))
+            wan_port_start = int(input("Enter the start of the wan port range: "))
+            wan_port_end = int(input("Enter the end of the wan port range: "))
+            proto = input("Enter the protocol (tcp/udp): ")
+            src_ip = input("Enter the source ip: ")
+            info = {
+                "name": name,
+                "port": port,
+                "wan_port_start": wan_port_start,
+                "wan_port_end": wan_port_end,
+                "proto": proto,
+                "src_ip": src_ip
+            }
+            self.addportforwarding(info)
+        except:
+            print("An error occurred")
+            return
+
+    
+    def addportforwarding(self, info):
         try:
             method = "/fw/redir/"
             data = {
                 'enabled': True,
-                "comment": jsonARGV['name'],
-                "lan_port": jsonARGV['port'],
-                "wan_port_end": jsonARGV['wan_port_end'],
-                "wan_port_start": jsonARGV['wan_port_start'],
+                "comment": info['name'],
+                "lan_port": info['port'],
+                "wan_port_end": info['wan_port_end'],
+                "wan_port_start": info['wan_port_start'],
                 "lan_ip": self.ip,
-                "ip_proto": jsonARGV['proto'],
-                "src_ip": jsonARGV['src_ip']
+                "ip_proto": info['proto'],
+                "src_ip": info['src_ip']
             }
             result = self.connection.connexion_post(method, data, self.currentSession)
             if result['success'] == True:
@@ -87,8 +112,3 @@ class AddPortForward():
                 listePort.append(data['result'][i]['wan_port_start'])
                 listePort.append(data['result'][i]['wan_port_end'])
         return listePort
-
-
-a = AddPortForward()
-a.addportforwarding()
-

@@ -33,8 +33,3 @@ class EnablePortForward():
             print(f"Failed to disable port forwarding rule {jsonARGV}.")
     def disablePortForward(self):
         self.enablePortForward(False)
-
-        
-if __name__ == "__main__":
-    enablePortForward = EnablePortForward()
-    enablePortForward.enablePortForward()

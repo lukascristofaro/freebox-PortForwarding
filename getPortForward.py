@@ -28,6 +28,7 @@ def display_port_forwarding_info(data):
     else:
         print("Failed to retrieve port forwarding information.")
 
-result = connection.connexion_get(method, session)
-display_port_forwarding_info(result)
-connection.connexion_close(session)
+def getPortForwarding():
+    result = connection.connexion_get(method, session)
+    display_port_forwarding_info(result)
+    connection.connexion_close(session)
