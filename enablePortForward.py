@@ -17,19 +17,18 @@ class EnablePortForward():
         else:
             print("ID is required.")
             return
-    def enablePortForward(self, enable : bool = True):
-        jsonARGV = self.argumentToJson()
-        method = "/fw/redir/" + str(jsonARGV)
+    def enablePortForward(self,info, enable : bool = True):
+        method = "/fw/redir/" + str(info)
         data = {
             'enabled': enable
         }
         result = self.connection.connexeion_put(method, data, self.currentSession)
         if result.get('success'):
             if enable:
-                print(f"Port forwarding rule {jsonARGV} successfully enabled.")
+                print(f"Port forwarding rule {info} successfully enabled.")
             else:
-                print(f"Port forwarding rule {jsonARGV} successfully disabled.")
+                print(f"Port forwarding rule {info} successfully disabled.")
         else:
-            print(f"Failed to disable port forwarding rule {jsonARGV}.")
+            print(f"Failed to disable port forwarding rule {info}.")
     def disablePortForward(self):
         self.enablePortForward(False)

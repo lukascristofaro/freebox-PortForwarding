@@ -7,7 +7,6 @@ import sys
 def main():
     method = sys.argv[1] if len(sys.argv) > 1 else None
     info = sys.argv[2] if len(sys.argv) > 2 else None
-    print(sys.argv)
     if len(sys.argv) < 2:
         print("Please provide an argument.")
         return
@@ -18,12 +17,27 @@ def main():
     elif method == "delete":
         DeletePortForward().deletePortForward(info)
     elif method == "enable":
-        EnablePortForward().enablePortForward(info)
+        info = validInfo(info)
+        EnablePortForward().enablePortForward(info, True)
     elif method == "disable":
-        EnablePortForward().disablePortForward(info)
+        info = validInfo(info)
+        EnablePortForward().enablePortForward(info, False)
     else:
         print("Invalid argument.")
         return
+
+def validInfo(info):
+    if info == None:
+        info = int(input("Enter the ID of the port forwarding: "))
+        return info
+    try :
+        info = int(info)
+    except:
+        print("ID has to be an integer")
+        return
+
+    else :
+        return info
 
 if __name__ == "__main__":
     main()
