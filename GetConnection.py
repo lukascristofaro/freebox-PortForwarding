@@ -15,6 +15,7 @@ import urllib3
 class GetConnection():
     def __init__(self):
         self.URL_BASE = 'https://mafreebox.freebox.fr/api/v10/'
+
         self.APP_ID = 'fr.freebox.apf'
         self.APP_NAME = 'autoportforward'
         self.APP_VERSION = '1'
