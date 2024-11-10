@@ -75,7 +75,6 @@ RESPONSE=$(curl -X POST "$URL_FREEBOX/api/v$API_MAJOR_VERSION/login/authorize/" 
     -H "Content-Type: application/json" \
     -d "{\"app_id\":\"$APP_ID\", \"app_name\":\"$APP_NAME\", \"app_version\":\"$APP_VERSION\", \"device_name\":\"$APP_DEVICE_NAME\"}")
 
-echo $RESPONSE
 
 APP_TOKEN=$(echo $RESPONSE | jq -r '.result.app_token')
 
