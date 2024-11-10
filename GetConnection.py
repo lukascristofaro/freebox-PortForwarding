@@ -11,23 +11,39 @@ import json
 
 import requests
 import urllib3
+import configparser
+
 
 class GetConnection():
     def __init__(self):
-        self.URL_BASE = 'https://mafreebox.freebox.fr/api/v10/'
+        self.config_path = '/etc/freebox-port-forwarding.conf'
 
-        self.APP_ID = 'fr.freebox.apf'
-        self.APP_NAME = 'autoportforward'
-        self.APP_VERSION = '1'
-        self.DEVICE_NAME = 'apf'
-        self.TOKEN = 'jduARJYIWM27yRSia1VZzdChGMyHEmhuM43y5iPJJmaemoKZHVdHgSpe1TCMXI1o'
-        self.TRACK_ID = '6'
+        self.load_config()
 
         self.session = requests.Session()
         self.session.verify = False
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-
+    def load_config(self):
+        config = configparser.ConfigParser()
+        try:
+            config.read(self.config_path)
+            self.URL_BASE = config.get('CONFIG', 'URL_FREEBOX')+'/api/v'+config.get('CONFIG', 'API_MAJOR_VERSION')+'/'
+            self.APP_ID = config.get('CONFIG', 'APP_ID')
+            self.APP_NAME = config.get('CONFIG', 'APP_NAME')
+            self.APP_VERSION = config.get('CONFIG', 'APP_VERSION')
+            self.DEVICE_NAME = config.get('CONFIG', 'APP_DEVICE_NAME')
+            self.TOKEN = config.get('CONFIG', 'APP_TOKEN')
+            self.TRACK_ID = config.get('CONFIG', 'TRACK_ID')
+            self.API_VERSION = config.get('CONFIG', 'API_VERSION')
+            self.API_MAJOR_VERSION = config.get('CONFIG', 'API_MAJOR_VERSION')
+        except FileNotFoundError:
+            print(f"Configuration file {self.config_path} not found. Using default values.")
+        except configparser.Error as e:
+            print(f"Error reading configuration file {self.config_path}: {e}. Using default values.")
+        except KeyError as e:
+            print(f"Missing required configuration key: {e}. Using default values.")
+        
     def fancy_print(data):
         print(json.dumps(data, indent=2, separators=(',', ': ')))
 

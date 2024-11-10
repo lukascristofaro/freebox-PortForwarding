@@ -77,6 +77,8 @@ RESPONSE=$(curl -X POST "$URL_FREEBOX/api/v$API_MAJOR_VERSION/login/authorize/" 
 
 echo $RESPONSE
 
+APP_TOKEN=$(echo $RESPONSE | jq -r '.result.app_token')
+
 TRACK_ID=$(echo $RESPONSE | jq -r '.result.track_id')
 echo "Track ID : $TRACK_ID"
 
@@ -100,6 +102,7 @@ while [ "$AUTH" = true ]; do
 done
 
 cat <<EOF> /etc/freebox-port-forwarding.conf
+[CONFIG]
 URL_FREEBOX=$URL_FREEBOX
 APP_ID=$APP_ID
 APP_NAME=$APP_NAME
