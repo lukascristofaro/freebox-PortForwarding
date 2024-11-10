@@ -30,5 +30,7 @@ class EnablePortForward():
                 print(f"Port forwarding rule {info} successfully disabled.")
         else:
             print(f"Failed to disable port forwarding rule {info}.")
+        self.connection.connexion_close(self.currentSession)
     def disablePortForward(self):
         self.enablePortForward(False)
+        self.connection.connexion_close(self.currentSession)

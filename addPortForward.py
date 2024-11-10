@@ -71,6 +71,7 @@ class AddPortForward():
         except:
             print("An error occurred")
             return
+        self.connection.connexion_close(self.currentSession)
 
     
     def addportforwarding(self, info):
