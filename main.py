@@ -9,6 +9,12 @@ def main():
     info = sys.argv[2] if len(sys.argv) > 2 else None
     if len(sys.argv) < 2:
         print("Please provide an argument.")
+        print("Available commands:")
+        print("  get                 - Get the current port forwarding configuration")
+        print("  add                 - Add a new port forwarding rule")
+        print("  delete <ID>         - Delete a port forwarding rule by ID")
+        print("  enable <ID>         - Enable a port forwarding rule by ID")
+        print("  disable <ID>        - Disable a port forwarding rule by ID")
         return
     if method == "get":
         getPortForwarding()

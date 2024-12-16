@@ -8,8 +8,8 @@ method = "/fw/redir/"
 def display_port_forwarding_info(data):
     if data.get('success'):
         print("\n")
-        print(f"{'ID':<5} {'Name':<10} {'Port':<10} {'WAN Port Start':<15} {'WAN Port End':<15} {'Protocol':<10} {'Source IP':<15} {'Enabled':<10}")
-        print(f"{'--':<5} {'----':<10} {'----':<10} {'-------------':<15} {'------------':<15} {'--------':<10} {'---------':<15} {'-------':<10}")
+        print(f"{'ID':<5} {'Name':<20} {'Port':<10} {'WAN Port Start':<15} {'WAN Port End':<15} {'Protocol':<10} {'Source IP':<15} {'Enabled':<10}")
+        print(f"{'--':<5} {'----':<20} {'----':<10} {'-------------':<15} {'------------':<15} {'--------':<10} {'---------':<15} {'-------':<10}")
         
         results = data.get('result', [])
         for entry in results:
@@ -22,7 +22,7 @@ def display_port_forwarding_info(data):
             src_ip = entry.get('src_ip', 'N/A')
             enabled = 'Yes' if entry.get('enabled') else 'No'
 
-            print(f"{id:<5} {name:<10} {port:<10} {wan_port_start:<15} {wan_port_end:<15} {proto:<10} {src_ip:<15} {enabled:<10}")
+            print(f"{id:<5} {name:<20} {port:<10} {wan_port_start:<15} {wan_port_end:<15} {proto:<10} {src_ip:<15} {enabled:<10}")
         print("\n")
         
     else:
