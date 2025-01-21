@@ -1,5 +1,5 @@
 from enablePortForward import EnablePortForward
-from getPortForward import getPortForwarding, getPortForwardingRaw
+from getPortForward import getPortForwarding
 from addPortForward import AddPortForward
 from deletePortForward import DeletePortForward
 import sys
