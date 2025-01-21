@@ -10,46 +10,6 @@ class AddPortForward():
         self.currentSession = self.connection.create_session()
         self.ip = "192.168.1.151"
         self.argv = sys.argv
-
-    def argumentToJson(self):
-        if len(self.argv) == 2:
-            return self.connection.get_config(self.argv[1])
-        else:
-            print('the argument has to be : \n \'{\"port\":xxxx, \"wan_port_end\":xxxxx, \"wan_port_start\":xxxxx, \"proto\":"tcp/udp", \"src_ip\":\"x.x.x.x\"}\'')
-            return
-        
-    def scan_ports(self):
-        target = self.ip
-        start_port = 1
-        end_port = 65535
-        open_ports = []
-        for port in range(start_port, end_port + 1):
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.settimeout(1)
-            result = sock.connect_ex((target, port))
-            if result == 0:
-                open_ports.append(port)
-            sock.close()
-        print(open_ports)
-        return open_ports
-
-    def isvalidport(self, port):
-        if type(port) != int:
-            return "port has to be an integer"
-        else:
-            if port < 1 and port > 65535:
-                return "the port has to be in the range 1-65535"
-            elif port in self.scan_ports():
-                return "this port is already used"
-        return True
-
-    def addPortForwardingWithFile(self):
-        jsonARGV = self.argumentToJson()
-        listePort = self.wanPortUsed()
-        if jsonARGV['wan_port_start'] in listePort or jsonARGV["wan_port_end"] in listePort:
-            print('this wan port is already used')
-            return
-        addportforwarding(jsonARGV)
     
     def addPortForwardingWithInput(self):
         try:

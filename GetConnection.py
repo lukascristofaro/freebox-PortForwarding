@@ -67,6 +67,7 @@ class GetConnection():
     
     def connexion_close(self, session):
         result = self.connexion_post("/login/logout/", session=session)
+        print(result)
         if result["success"] != True:
             print("Error while closing session")
     

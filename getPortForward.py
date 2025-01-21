@@ -32,3 +32,4 @@ def getPortForwarding():
     result = connection.connexion_get(method, session)
     display_port_forwarding_info(result)
     connection.connexion_close(session)
+    
